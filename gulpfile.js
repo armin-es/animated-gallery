@@ -10,11 +10,18 @@ gulp.task('lint', function() {
     .pipe(eslint.failAfterError());
 });
 
+//Concat. CSS files Task:
+gulp.task('concat-js', function() {
+    return gulp.src(['./src/js/style.css', './node_modules/jquery-fancybox/source/**/*.css'])
+    .pipe(concat('main.css'))
+    .pipe(gulp.dest('./dist/css/'));
+});
+
 //Concat. JS files Task:
 gulp.task('concat-js', function() {
-    return gulp.src(['./node_modules/jquery/dist/jquery.js', 'src/js/jquery.quicksand.js', './node_modules/jquery-fancybox/source/**/*.js', 'script.js'])
+    return gulp.src(['./node_modules/jquery/dist/jquery.js', 'src/js/jquery.quicksand.js', './node_modules/jquery-fancybox/source/**/*.js', './src/js/script.js'])
     .pipe(concat('main.js'))
-    .pipe(gulp.dest('./src/js/'));
+    .pipe(gulp.dest('./dist/js/'));
 });
 
 // Watch Task:
