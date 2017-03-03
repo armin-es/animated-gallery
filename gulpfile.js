@@ -49,10 +49,16 @@ gulp.task('minify-js', ['concat-js'], function() {
     .pipe(clean());
 });
 
+// img copy task:
+gulp.task('copy-img', function() {
+    return gulp.src('./src/img/**/*')
+    .pipe(gulp.dest('./dist/img'));
+});
+
 // Watch Task:
 gulp.task('watch', function() {
     gulp.watch('./src/css/*.css', ['minify-css']);
-    gulp.watch('./src/js/*.js', ['lint-js']);
+    gulp.watch('./src/js/*.js', ['minify-js']);
 });
 
 // Default Task:
