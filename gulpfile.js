@@ -59,7 +59,8 @@ gulp.task('copy-img', function() {
 gulp.task('watch', function() {
     gulp.watch('./src/css/*.css', ['minify-css']);
     gulp.watch('./src/js/*.js', ['minify-js']);
+    gulp.watch('./src/img/**/*', ['copy-img']);
 });
 
 // Default Task:
-gulp.task('default', ['minify-css', 'lint-js', 'watch']);
+gulp.task('default', ['minify-css', 'minify-js', 'copy-img', 'watch']);
