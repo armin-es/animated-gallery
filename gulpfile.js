@@ -2,8 +2,11 @@ var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var concat = require('gulp-concat');
 var cleanCSS = require('gulp-clean-css');
+var jsmin = require('gulp-jsmin');
+var rename = require('gulp-rename');
+var clean = require('gulp-clean');
 
-// CSS Tasks:
+// ------- CSS Tasks ------- //
 
 // Concat.:
 gulp.task('concat-css', function() {
@@ -19,7 +22,9 @@ gulp.task('minify-css', ['concat-css'], function() {
     .pipe(gulp.dest('./dist/css'));
 });
 
-//JS Lint Task:
+// ------- JS Tasks ------- //
+
+// Lint:
 gulp.task('lint-js', function() {
     return gulp.src('src/js/*.js')
     .pipe(eslint())
@@ -28,17 +33,26 @@ gulp.task('lint-js', function() {
 });
 
 
-//Concat. JS files Task:
-gulp.task('concat-js', function() {
+// Concat.:
+gulp.task('concat-js', ['lint-js'], function() {
     return gulp.src(['./node_modules/jquery/dist/jquery.js', 'src/js/jquery.quicksand.js', './node_modules/jquery-fancybox/source/**/*.js', './src/js/script.js'])
     .pipe(concat('main.js'))
-    .pipe(gulp.dest('./dist/js/'));
+    .pipe(gulp.dest('./dist/js'));
+});
+
+// Minify:
+gulp.task('minify-js', ['concat-js'], function() {
+    return gulp.src('./dist/js/main.js')
+    .pipe(jsmin())
+    .pipe(rename({suffix: '.min'}))
+    .pipe(gulp.dest('./dist/js'))
+    .pipe(clean());
 });
 
 // Watch Task:
 gulp.task('watch', function() {
     gulp.watch('./src/css/*.css', ['minify-css']);
-    gulp.watch('./src/js/*.js', ['lint']);
+    gulp.watch('./src/js/*.js', ['lint-js']);
 });
 
 // Default Task:
