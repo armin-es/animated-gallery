@@ -2,6 +2,18 @@ var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var concat = require('gulp-concat');
 
+// CSS Tasks:
+
+// Concat.:
+gulp.task('concat-js', function() {
+    return gulp.src(['./src/js/style.css', './node_modules/jquery-fancybox/source/**/*.css'])
+    .pipe(concat('main.css'))
+    .pipe(gulp.dest('./dist/css/'));
+});
+
+// Minify:
+
+
 //JS Lint Task:
 gulp.task('lint', function() {
     return gulp.src('src/js/*.js')
@@ -10,12 +22,6 @@ gulp.task('lint', function() {
     .pipe(eslint.failAfterError());
 });
 
-//Concat. CSS files Task:
-gulp.task('concat-js', function() {
-    return gulp.src(['./src/js/style.css', './node_modules/jquery-fancybox/source/**/*.css'])
-    .pipe(concat('main.css'))
-    .pipe(gulp.dest('./dist/css/'));
-});
 
 //Concat. JS files Task:
 gulp.task('concat-js', function() {
