@@ -1,21 +1,26 @@
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
 var concat = require('gulp-concat');
+var cleanCSS = require('gulp-clean-css');
 
 // CSS Tasks:
 
 // Concat.:
-gulp.task('concat-js', function() {
+gulp.task('concat-css', function() {
     return gulp.src(['./src/js/style.css', './node_modules/jquery-fancybox/source/**/*.css'])
     .pipe(concat('main.css'))
-    .pipe(gulp.dest('./dist/css/'));
+    .pipe(gulp.dest('./dist/css'));
 });
 
 // Minify:
-
+gulp.task('minify-css', ['concat-css'], function() {
+    return gulp.src('./src/css/main.css')
+    .pipe(cleanCSS({compatibility: 'ie8'}))
+    .pipe(gulp.dest('./dist/css'));
+});
 
 //JS Lint Task:
-gulp.task('lint', function() {
+gulp.task('lint-js', function() {
     return gulp.src('src/js/*.js')
     .pipe(eslint())
     .pipe(eslint.format())
@@ -32,8 +37,9 @@ gulp.task('concat-js', function() {
 
 // Watch Task:
 gulp.task('watch', function() {
-    gulp.watch('src/js/*.js', ['lint']);
+    gulp.watch('./src/css/*.css', ['minify-css']);
+    gulp.watch('./src/js/*.js', ['lint']);
 });
 
 // Default Task:
-gulp.task('default', ['lint', 'watch']);
+gulp.task('default', ['minify-css', 'lint-js', 'watch']);
