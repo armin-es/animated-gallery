@@ -49,7 +49,8 @@ gulp.task('minify-js', ['concat-js'], function() {
     .pipe(clean());
 });
 
-// img copy task:
+// ------- img Copy Task ------- //
+
 gulp.task('copy-img', function() {
     return gulp.src('./src/img/**/*')
     .pipe(gulp.dest('./dist/img'));
